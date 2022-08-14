@@ -28,7 +28,7 @@ class App {
     }
 
     public connectToDatabase() {
-         sequelize.sync({force: false});
+         sequelize.sync({force: true});
     }
 
     public listen() {
