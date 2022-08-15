@@ -1,5 +1,6 @@
-import { DataTypes, Model, CreationOptional, InferAttributes, InferCreationAttributes } from "sequelize";
+import { DataTypes, Model, CreationOptional, InferAttributes, InferCreationAttributes, HasManyGetAssociationsMixin, Association } from "sequelize";
 import sequelize from "../config/db.config"
+import Transaction from "./Transaction";
 
 export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare id: CreationOptional<number>;
@@ -11,6 +12,11 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
     declare balance: number;
     declare is_verified: CreationOptional<boolean>;
     declare is_admin: CreationOptional<boolean>;
+
+    declare static associations: {
+        sentTransactions: Association<User, Transaction>,
+        receivedTransactions: Association<User, Transaction>
+    }
 }
 
 User.init(
@@ -56,7 +62,7 @@ User.init(
             allowNull: false
         },
         balance: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.BIGINT.UNSIGNED,
             defaultValue: 0
         },
         is_verified: {
@@ -73,6 +79,28 @@ User.init(
         sequelize
     }
 );
+
+User.hasMany(Transaction, {
+    as: "receivedTransactions",
+    sourceKey: "id",
+    foreignKey: "sender_id"
+});
+
+User.hasMany(Transaction, {
+    as: "sentTransactions",
+    sourceKey: "id",
+    foreignKey: "receiver_id"
+});
+
+Transaction.belongsTo(User, {
+    as: "sender",
+    foreignKey: "sender_id"
+});
+
+Transaction.belongsTo(User, {
+    as: "receiver",
+    foreignKey: "receiver_id"
+});
 
 export class UserCreationDTO {
     constructor(
