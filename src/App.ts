@@ -3,6 +3,7 @@ import express from "express";
 import { Routes } from "./interfaces/RouteInterface";
 import sequelize from "./config/db.config";
 import logger from "./logger";
+import { httpErrorMiddleware } from "./middlewares/HttpErrorMiddleware";
 
 dotenv.config({ path: './.env'});
 
@@ -18,6 +19,7 @@ class App {
         this.express.use(express.json());
         this.express.use(express.urlencoded({ extended: false }));
         this.loadRoutes(routes);
+        this.express.use(httpErrorMiddleware);
         this.connectToDatabase();
     }
 

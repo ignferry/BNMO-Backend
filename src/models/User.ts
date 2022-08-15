@@ -22,14 +22,22 @@ User.init(
         },
         username: {
             type: DataTypes.STRING,
+            allowNull: false,
             unique: true,
             validate: {
-                is: /\w+/i,
-                len: [6, 12]
+                is: {
+                    args: /\w+/i,
+                    msg: "username should only contain alphanumerical characters and '_'"
+                },
+                len: {
+                    args: [6, 12],
+                    msg: "username should be between 6-12 characters long"
+                }
             }
         },
         email: {
             type: DataTypes.STRING,
+            allowNull: false,
             unique: true,
             validate: {
                 isEmail: true
@@ -37,12 +45,15 @@ User.init(
         },
         password: {
             type: DataTypes.STRING,
+            allowNull: false
         },
         name: {
             type: DataTypes.STRING,
+            allowNull: false
         },
         ktp_image: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         },
         balance: {
             type: DataTypes.BIGINT,
