@@ -10,6 +10,7 @@ export default class UserService {
         const allUsers: User[] = await User.findAll({
             attributes: { exclude: ['password', 'ktp_image'] }
         });
+
         return allUsers;
     }
 

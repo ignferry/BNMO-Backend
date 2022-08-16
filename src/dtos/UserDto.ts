@@ -4,8 +4,13 @@ export class UserCreationDTO {
         public email: string,
         public password: string,
         public name: string,
-        public ktp_image: string,
-        public balance: number,
-        public is_admin: boolean
-    ) {}
+        public ktp_image: string
+    ) {};
+}
+
+export class UserLoginDto {
+    constructor(
+        public username: string,
+        public password: string
+    ) {};
 }

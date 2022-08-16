@@ -45,15 +45,18 @@ module.exports = {
       },
       balance: {
         type: Sequelize.BIGINT.UNSIGNED,
-        defaultValue: 0
+        defaultValue: 0,
+        allowNull: false
       },
       is_verified: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
+        allowNull: false
       },
       is_admin: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
+        allowNull: false
       }
     })
   },

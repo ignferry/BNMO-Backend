@@ -15,7 +15,7 @@ export default class UserController {
         catch (err) {
             next(err);
         }
-    }
+    };
 
     public getUserById = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -27,7 +27,7 @@ export default class UserController {
         catch (err) {
             next(err);
         }
-    }
+    };
 
     public createUser = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -39,7 +39,7 @@ export default class UserController {
         catch (err) {
             next(err);
         }
-    }
+    };
 
     public updateUser = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -53,7 +53,7 @@ export default class UserController {
         catch (err) {
             next(err);
         }
-    }
+    };
 
     public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -66,5 +66,5 @@ export default class UserController {
         catch (err) {
             next(err);
         }
-    }
+    };
 }

@@ -9,7 +9,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
     declare password: string;
     declare name: string;
     declare ktp_image: string;
-    declare balance: number;
+    declare balance: CreationOptional<number>;
     declare is_verified: CreationOptional<boolean>;
     declare is_admin: CreationOptional<boolean>;
 
@@ -64,15 +64,18 @@ export default function (): typeof User {
             },
             balance: {
                 type: DataTypes.BIGINT.UNSIGNED,
-                defaultValue: 0
+                defaultValue: 0,
+                allowNull: false
             },
             is_verified: {
                 type: DataTypes.BOOLEAN,
-                defaultValue: false
+                defaultValue: false,
+                allowNull: false
             },
             is_admin: {
                 type: DataTypes.BOOLEAN,
-                defaultValue: false
+                defaultValue: false,
+                allowNull: false
             }
         },
         {
