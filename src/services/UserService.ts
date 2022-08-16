@@ -1,4 +1,5 @@
-import User, { UserCreationDTO } from "../models/User";
+import { User } from "../db/models/User";
+import { UserCreationDTO } from "../dtos/UserDto";
 import { HttpException } from  "../exceptions/HttpException"
 import { Op } from "sequelize";
 import { hash } from "bcrypt";

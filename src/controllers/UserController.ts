@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import User, { UserCreationDTO } from "../models/User";
+import { User } from "../db/models/User";
+import { UserCreationDTO } from "../dtos/UserDto";
 import UserService from "../services/UserService";
 
 export default class UserController {
