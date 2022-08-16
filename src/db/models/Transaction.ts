@@ -1,5 +1,5 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, ForeignKey, NonAttribute, DataTypes } from "sequelize";
-import db from "./index";
+import { Model, InferAttributes, InferCreationAttributes, CreationOptional, ForeignKey, NonAttribute, DataTypes, Sequelize } from "sequelize";
+import sequelize from "../config/SequelizeConnection"
 import { User } from "./User";
 
 export class Transaction extends Model<InferAttributes<Transaction>, InferCreationAttributes<Transaction>> {
@@ -15,8 +15,6 @@ export class Transaction extends Model<InferAttributes<Transaction>, InferCreati
 }
 
 export default function (): typeof Transaction {
-    const sequelize = db.sequelize;
-
     Transaction.init(
         {
             id: {
@@ -36,7 +34,7 @@ export default function (): typeof Transaction {
                         args: [1],
                         msg: "Type must be either 0 (request) or 1 (transfer)"
                     }
-                }
+                },
             },
             amount: {
                 type: DataTypes.INTEGER.UNSIGNED,

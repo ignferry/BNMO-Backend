@@ -1,5 +1,5 @@
 import { DataTypes, Model, CreationOptional, InferAttributes, InferCreationAttributes, HasManyGetAssociationsMixin, Association } from "sequelize";
-import db from "./index";
+import sequelize from "../config/SequelizeConnection";
 import { Transaction } from "./Transaction";
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
@@ -20,8 +20,6 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 }
 
 export default function (): typeof User {
-    const sequelize = db.sequelize;
-
     User.init(
         {
             id: {

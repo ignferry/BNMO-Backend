@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import { Routes } from "./interfaces/RouteInterface";
-import sequelize from "./config/db.config";
+import db from "./db/models";
 import logger from "./logger";
 import { httpErrorMiddleware } from "./middlewares/HttpErrorMiddleware";
 
@@ -30,7 +30,7 @@ class App {
     }
 
     public connectToDatabase() {
-         sequelize.sync({force: true});
+         db.sequelize.sync({force: true});
     }
 
     public listen() {
