@@ -30,7 +30,7 @@ class App {
     }
 
     public connectToDatabase() {
-         db.sequelize.sync({force: true});
+         db.sequelize.sync({force: false});
     }
 
     public listen() {
