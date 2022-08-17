@@ -3,3 +3,4 @@ node_modules
 !src/db/migrations/*.js
 !src/db/seeders/*.js
 notes.txt
+.env
