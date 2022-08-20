@@ -1,6 +1,7 @@
 import { Router } from "express";
 import RequestController from "../controllers/RequestController";
 import { Routes } from "../interfaces/RouteInterface";
+import { authMiddleware } from "../middlewares/AuthMiddleware";
 
 
 export default class RequestRoutes implements Routes {
@@ -13,9 +14,9 @@ export default class RequestRoutes implements Routes {
     }
 
     private initializeRoutes() {
-        this.router.get(`${this.path}`, this.requestController.getAllRequests);
-        this.router.post(`${this.path}`, this.requestController.createRequest);
-        this.router.delete(`${this.path}/:id(\\d+)`, this.requestController.deleteRequest);
-        this.router.put(`${this.path}/verify/:id(\\d+)`, this.requestController.verifyRequest);
+        this.router.get(`${this.path}`, authMiddleware, this.requestController.getAllRequests);
+        this.router.post(`${this.path}`, authMiddleware, this.requestController.createRequest);
+        this.router.delete(`${this.path}/:id(\\d+)`, authMiddleware, this.requestController.deleteRequest);
+        this.router.put(`${this.path}/verify/:id(\\d+)`, authMiddleware, this.requestController.verifyRequest);
     }
 }
