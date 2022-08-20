@@ -1,6 +1,7 @@
 import { Router } from "express";
 import TransferController from "../controllers/TransferController";
 import { Routes } from "../interfaces/RouteInterface";
+import { validationErrorMiddleware } from "../middlewares/ValidationErrorMiddleware";
 
 
 export default class TransferRoutes implements Routes {
@@ -14,6 +15,6 @@ export default class TransferRoutes implements Routes {
 
     private initializeRoutes() {
         this.router.get(`${this.path}`, this.transferController.getAllTransfers);
-        this.router.post(`${this.path}`, this.transferController.createTransfer);
+        this.router.post(`${this.path}`, this.transferController.createTransfer, validationErrorMiddleware);
     }
 }
