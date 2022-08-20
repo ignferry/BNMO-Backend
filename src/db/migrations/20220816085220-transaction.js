@@ -63,6 +63,16 @@ module.exports = {
             msg: "Status must be either -1 (declined), 0 (pending), or 1 (accepted)"
           }
         }
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: new Date()
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: new Date()
       }
     });
   },

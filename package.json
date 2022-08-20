@@ -8,7 +8,9 @@
   },
   "scripts": {
     "start": "ts-node --transpile-only src/server.ts",
-    "dev": "nodemon -L src/server.ts"
+    "dev": "npm run migrate && npm run seed && nodemon -L src/server.ts",
+    "migrate": "cd src/db && npx sequelize-cli db:migrate",
+    "seed": "cd src/db && npx sequelize-cli db:seed:all"
   },
   "repository": {
     "type": "git",
