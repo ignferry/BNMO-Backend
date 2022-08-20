@@ -7,9 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "build": "npx tsc",
-    "start": "node src/server.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q src/server.js\""
+    "start": "ts-node --transpile-only src/server.ts",
+    "dev": "nodemon -L src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -44,6 +43,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "concurrently": "^7.3.0",
     "nodemon": "^2.0.19",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "ts-node": "^10.9.1"
   }
 }

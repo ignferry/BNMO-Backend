@@ -3,7 +3,7 @@
     "username": "root",
     "password": null,
     "database": "bnmo_development",
-    "host": "127.0.0.1",
+    "host": "bnmo_database",
     "dialect": "mysql"
   },
   "test": {
@@ -16,7 +16,7 @@
   "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
+    "database": "bnmo_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

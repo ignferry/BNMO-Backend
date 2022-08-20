@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  bnmo_backend:
+    build: 
+      context: ./
+      target: development
+      dockerfile: Dockerfile
+    container_name: bnmo_backend
+    env_file: "./.env"
+    ports: 
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    restart: "unless-stopped"
+    networks:
+      - backend
+    depends_on:
+      - bnmo_database
+  bnmo_database:
+    image: mysql:latest
+    container_name: bnmo_database
+    env_file: "./.env"
+    ports:
+      - "${MYSQL_PORT}:${MYSQL_PORT}"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local

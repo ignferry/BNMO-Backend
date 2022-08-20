@@ -13,8 +13,8 @@ class App {
     public host: string;
 
     constructor(routes: Routes[]) {
-        this.port = process.env.PORT as unknown as number || 3306;
-        this.host = process.env.HOST as string || "localhost";
+        this.port = process.env.BACKEND_PORT as unknown as number || 3306;
+        this.host = process.env.BACKEND_HOST as string || "localhost";
         this.express = express();
         this.express.use(express.json());
         this.express.use(express.urlencoded({ extended: false }));
@@ -30,13 +30,13 @@ class App {
     }
 
     public connectToDatabase() {
-         db.sequelize.sync({force: false});
+        db.sequelize.sync({force: true});
     }
 
     public listen() {
         this.express.listen(this.port, this.host, () => {
             logger.info(`Server is running at port ${this.port}`);
-        })
+        });
     }
 }
 
