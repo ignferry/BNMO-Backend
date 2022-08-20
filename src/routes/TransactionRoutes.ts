@@ -1,6 +1,7 @@
 import { Router } from "express";
 import TransactionController from "../controllers/TransactionController";
 import { Routes } from "../interfaces/RouteInterface";
+import { authMiddleware } from "../middlewares/AuthMiddleware";
 
 
 export default class TransactionRoutes implements Routes {
@@ -13,6 +14,6 @@ export default class TransactionRoutes implements Routes {
     }
 
     private initializeRoutes() {
-        this.router.get(`${this.path}/:id(\\d+)`, this.transactionController.getAllTransactions);
+        this.router.get(`${this.path}/:id(\\d+)`, authMiddleware, this.transactionController.getTransactionById);
     }
 }

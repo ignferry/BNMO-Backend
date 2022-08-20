@@ -36,7 +36,7 @@ export default class UserService {
         if (userSameCredentials) throw new HttpException(409, "User with the same username or email already exists");
 
         const hashedPassword = await hash(userData.password, 10);
-        await User.create({...userData, password: hashedPassword});
+        await User.create({ ...userData, password: hashedPassword });
     }
 
     public async updateUser(userId: number, userData: UserCreationDTO): Promise<void> {

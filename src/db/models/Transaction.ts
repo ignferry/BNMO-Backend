@@ -8,7 +8,7 @@ export class Transaction extends Model<InferAttributes<Transaction>, InferCreati
     declare sender_id: ForeignKey<User['id']>;
     declare receiver_id: ForeignKey<User['id']>;
     declare amount: number;
-    declare status: number;
+    declare status: CreationOptional<number>;
 
     declare sender?: NonAttribute<User>;
     declare receiver?: NonAttribute<User>;
