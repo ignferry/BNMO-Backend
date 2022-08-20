@@ -1,28 +1,5 @@
 const { faker } = require("@faker-js/faker");
 
-const fakeUsers = [...Array(5)].map((user) => (
-  {
-    username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: "$2y$10$zHfwQni69axAwDBZrm9iU.ZdGXewvFITtT6Xn1sXkMGzj.x33vVNi", // password
-    name: faker.name.fullName(),
-    ktp_image: faker.image.food(),
-    balance: 0,
-    is_verified: true,
-    is_admin: false
-  }
-));
-
-const fakeTransactions = [...Array(5)].map((transaction) => (
-  {
-    type: Math.floor(Math.random() * 2),
-    sender_id: Math.floor(Math.random() * 5) + 1,
-    receiver_id: Math.floor(Math.random() * 5) + 1,
-    amount: faker.finance.faker.finance.amount(0, 1000000, 0),
-    status: Math.floor(Math.random() * 3) - 1
-  }
-))
-
 module.exports = {
   async up (queryInterface, Sequelize) {
     /**
@@ -34,8 +11,39 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert("users", fakeUsers, {});
-   await queryInterface.bulkInsert("transactions", fakeTransactions, {});
+   
+    const fakeUsers = [...Array(5)].map((user) => (
+      {
+        username: faker.internet.userName(),
+        email: faker.internet.email(),
+        password: "$2b$10$6OmCXZrOMGZmtx6JsmO96OwnugT4bkHfqM6yYEt5J/lD3j1hBD8q6", // password
+        name: faker.name.fullName(),
+        ktp_image: faker.image.food(),
+        balance: 0,
+        is_verified: true,
+        is_admin: false
+      }
+    ));
+
+    await queryInterface.bulkInsert("users", fakeUsers, {});
+
+    const users = await queryInterface.sequelize.query(
+      "SELECT id FROM users"
+    );
+
+    const userIds = users[0];
+
+    const fakeTransactions = [...Array(5)].map((transaction) => (
+      {
+        type: Math.floor(Math.random() * 2),
+        sender_id: userIds[Math.floor(Math.random() * 5)].id,
+        receiver_id: userIds[Math.floor(Math.random() * 5)].id,
+        amount: faker.finance.faker.finance.amount(0, 1000000, 0),
+        status: Math.floor(Math.random() * 3) - 1
+      }
+    ))
+
+    await queryInterface.bulkInsert("transactions", fakeTransactions, {});
   },
 
   async down (queryInterface, Sequelize) {
