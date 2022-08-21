@@ -18,5 +18,6 @@ export default class AuthRoutes implements Routes {
         this.router.post("/signup", this.authController.signUp, validationErrorMiddleware);
         this.router.post("/login", this.authController.logIn);
         this.router.post("/logout", authMiddleware, this.authController.logOut);
+        this.router.post("/verify/:id(\\d+)", authMiddleware, this.authController.verify);
     }
 }

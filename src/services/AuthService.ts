@@ -32,6 +32,7 @@ export default class AuthService {
             }
         });
         if (!findUser) throw new HttpException(409, "Invalid login credentials");
+        if (!findUser.is_verified) throw new HttpException(403, "Unverified");
         
         const match = await compare(userData.password, findUser.password);
         if (!match) throw new HttpException(409, "Invalid login credentials");
@@ -45,5 +46,18 @@ export default class AuthService {
         return {
             access_token: token
         };
+    }
+
+    public async verify(userId: number, accept: boolean): Promise<void> {
+        const user: User | null = await User.findByPk(userId);
+        if (!user) throw new HttpException(404, "User not found");
+        if (user.is_verified) throw new HttpException(409, "User has been verified before");
+
+        if (accept) {
+            User.update({ is_verified: true }, { where: { id: userId } });
+        }
+        else {
+            User.destroy({ where: { id: userId } });
+        }
     }
 }

@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+import { User } from "../db/models/User";
 import { UserCreationDTO, UserLoginDto } from "../dtos/UserDto";
+import { HttpException } from "../exceptions/HttpException";
 import { RequestWithUser } from "../interfaces/AuthInterface";
 import AuthService from "../services/AuthService";
 
@@ -55,4 +57,21 @@ export default class AuthController {
             next(err);
         }
     };
+
+    public verify = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const currentUser: User = res.locals.user;
+            if (!currentUser) throw 0;
+            if (!currentUser.is_admin) throw new HttpException(403, "Forbidden");
+
+            const userId = req.params.id as unknown as number;
+            const { accept }: { accept: boolean} = req.body;
+            this.authService.verify(userId, accept);
+
+            res.status(200).json({ message: "User verification successful" });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
 }
