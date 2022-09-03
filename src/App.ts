@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import cors from "cors";
 import { Routes } from "./interfaces/RouteInterface";
 import db from "./db/models";
 import logger from "./logger";
@@ -17,6 +18,9 @@ class App {
         this.host = process.env.BACKEND_HOST as string || "localhost";
         this.express = express();
         this.express.use(express.json());
+        this.express.use(cors({
+            origin: '*'
+        }));
         this.express.use(express.urlencoded({ extended: false }));
         this.loadRoutes(routes);
         this.express.use(httpErrorMiddleware);
