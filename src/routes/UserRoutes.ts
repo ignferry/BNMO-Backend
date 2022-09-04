@@ -14,7 +14,7 @@ export default class UserRoutes implements Routes {
     
     private initializeRoutes() {
         this.router.get(`${this.path}`, this.userController.getAllUsers);
-        this.router.get(`${this.path}/:id(\\d+)`, this.userController.getUserById);
+        this.router.get(`${this.path}/:id(\\d+)`, authMiddleware, this.userController.getUserById);
         this.router.get(`${this.path}/:id(\\d+)/requests`, authMiddleware, this.userController.getUserRequests);
         this.router.get(`${this.path}/:id(\\d+)/transfers`, authMiddleware, this.userController.getUserTransfers);
         this.router.get(`${this.path}/:id(\\d+)/transactions`, authMiddleware, this.userController.getUserTransactions);

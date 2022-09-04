@@ -22,6 +22,10 @@ export default class UserController {
     public getUserById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId = Number(req.params.id);
+            const currentUser = res.locals.user as User;
+            if (!currentUser) throw 0;
+            if (userId != currentUser.id && !currentUser.is_admin) throw new HttpException(403, "Forbidden");
+
             const user: User = await this.userService.findUserById(userId);
 
             res.status(200).json(user);
