@@ -4,7 +4,7 @@ export class UserCreationDTO {
         public email: string,
         public password: string,
         public name: string,
-        public ktp_image: string
+        public ktp_image: Express.Multer.File | undefined
     ) {};
 }
 

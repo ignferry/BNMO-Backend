@@ -1,5 +1,7 @@
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
+import fs from "fs";
+import { v4 as uuid } from "uuid";
 import { UserCreationDTO, UserLoginDto } from "../dtos/UserDto"
 import { HttpException } from "../exceptions/HttpException";
 import { User } from "../db/models/User";
@@ -7,6 +9,8 @@ import { User } from "../db/models/User";
 
 export default class AuthService {
     public async signUp(userData: UserCreationDTO): Promise<void> {
+        console.log(userData.ktp_image?.filename);
+
         const userSameUsername: User | null = await User.findOne({
             where: {
                 username: userData.username
@@ -21,8 +25,18 @@ export default class AuthService {
         });
         if (userSameEmail) throw new HttpException(409, "User with the same email already exists");
 
+        if (!userData.ktp_image) throw new  HttpException(401, "No ktp image uploaded");
+        if (userData.ktp_image.mimetype.split("/")[0] != "image") throw new HttpException(401, "Uploaded file is not an image");
+
+        const filename: string = uuid() + "." + userData.ktp_image.mimetype.split("/")[1];
+        const filepath: string = "./storage/images/" + filename;
+
+        fs.writeFile(filepath, userData.ktp_image.buffer, (err) => {
+            if (err) throw new HttpException(500, "Error uploading image");
+        })
+
         const hashedPassword = await hash(userData.password, 10);
-        await User.create({ ...userData, password: hashedPassword });
+        await User.create({ ...userData, password: hashedPassword, ktp_image: filepath });
     }
 
     public async logIn(userData: UserLoginDto): Promise<{access_token: string}> {

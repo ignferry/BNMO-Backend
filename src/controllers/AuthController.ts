@@ -12,6 +12,7 @@ export default class AuthController {
     public signUp = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userData: UserCreationDTO = req.body;
+            userData.ktp_image = req.file;
             await this.authService.signUp(userData);
 
             res.status(201).json({ message: "Sign up successful" });

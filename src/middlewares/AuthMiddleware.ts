@@ -7,6 +7,7 @@ import { RequestWithUser } from "../interfaces/AuthInterface";
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const access_token = req.header("Authorization") ? req.header("Authorization")?.split("Bearer ")[1] : null;
+        req.file?.filename;
 
         if (access_token) {
             const secretKey: string = process.env.SECRET_KEY as string;

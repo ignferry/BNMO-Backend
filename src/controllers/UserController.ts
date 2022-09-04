@@ -78,43 +78,4 @@ export default class UserController {
             next(err);
         }
     }
-
-    public createUser = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const userData: UserCreationDTO = req.body;
-            await this.userService.createUser(userData);
-
-            res.status(200).json({ message: "User created successfully" });
-        }
-        catch (err) {
-            next(err);
-        }
-    };
-
-    public updateUser = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const userId = Number(req.params.id);
-            const userData: UserCreationDTO = req.body;
-            
-            await this.userService.updateUser(userId, userData);
-
-            res.status(200).json({ message: "User updated successfully" });
-        }
-        catch (err) {
-            next(err);
-        }
-    };
-
-    public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const userId = Number(req.params.id);
-            
-            await this.userService.deleteUser(userId);
-
-            res.status(200).json({ message: "User deleted successfully" });
-        }
-        catch (err) {
-            next(err);
-        }
-    };
 }

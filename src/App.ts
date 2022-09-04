@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
+import fs from "fs";
 import { Routes } from "./interfaces/RouteInterface";
 import db from "./db/models";
 import logger from "./logger";
@@ -17,11 +18,12 @@ class App {
         this.port = process.env.BACKEND_PORT as unknown as number || 3306;
         this.host = process.env.BACKEND_HOST as string || "localhost";
         this.express = express();
-        this.express.use(express.json());
         this.express.use(cors({
-            origin: '*'
+            origin: "*"
         }));
+        this.express.use(express.json());
         this.express.use(express.urlencoded({ extended: false }));
+        this.createStorageFolder();
         this.loadRoutes(routes);
         this.express.use(httpErrorMiddleware);
         this.connectToDatabase();
@@ -35,6 +37,14 @@ class App {
 
     public connectToDatabase() {
         db.sequelize.sync({force: false});
+    }
+
+    public createStorageFolder() {
+        const dir = "./storage/images";
+
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
     }
 
     public listen() {
