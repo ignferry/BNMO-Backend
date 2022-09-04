@@ -13,6 +13,9 @@ export default class RequestService {
             offset: page * pageSize,
             where: {
                 type: 0
+            },
+            attributes: {
+                exclude: ["type"]
             }
         });
 

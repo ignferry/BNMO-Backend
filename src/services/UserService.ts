@@ -9,14 +9,17 @@ import { Transaction } from "../db/models/Transaction";
 export default class UserService {
     public async findAllUsers(): Promise<User[]> {
         const allUsers: User[] = await User.findAll({
-            attributes: { exclude: ['password', 'ktp_image'] }
+            where: { is_verified: true, is_admin: false },
+            attributes: ["id", "username", "name"]
         });
 
         return allUsers;
     }
 
     public async findUserById(userId: number): Promise<User> {
-        const findUser: User | null = await User.findByPk(userId);
+        const findUser: User | null = await User.findByPk(userId, {
+            attributes: ["id", "username", "email", "name", "balance"]
+        });
         if (!findUser) throw new HttpException(409, "User not found");
 
         return findUser;

@@ -12,7 +12,24 @@ export default class TransactionService {
      * @returns {Transaction}   
      */
     public async findTransactionById(transactionId: number, user: User): Promise<Transaction> {
-        const findTransaction: Transaction | null = await Transaction.findByPk(transactionId);
+        const findTransaction: Transaction | null = await Transaction.findByPk(transactionId, {
+            include: [
+                {
+                    model: User,
+                    as: "sender",
+                    attributes: ["id", "username", "name"]
+                },
+                {
+                    model: User,
+                    as: "receiver",
+                    attributes: ["id", "username", "name"]
+                }
+            ],
+            attributes: {
+                exclude: ["sender_id", "receiver_id"]
+            }
+        });
+
         if (!findTransaction) {
             if (user.is_admin) {
                 throw new HttpException(404, "Transaction not found");
@@ -22,7 +39,7 @@ export default class TransactionService {
             }
         }
 
-        if (findTransaction.sender_id != user.id && findTransaction.receiver_id != user.id) {
+        if (findTransaction.sender?.id != user.id && findTransaction.receiver?.id != user.id && !user.is_admin) {
             throw new HttpException(403, "Forbidden");
         }
 
