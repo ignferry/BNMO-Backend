@@ -59,6 +59,41 @@ export default class AuthController {
         }
     };
 
+    public getToVerifyData = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const currentUser: User = res.locals.user;
+            if (!currentUser) throw 0;
+            if (!currentUser.is_admin) throw new HttpException(403, "Forbidden");
+
+            const userId = req.params.id as unknown as number;
+
+            const requestedUser: User = await this.authService.getToVerifyData(userId);
+
+            res.status(200).json(requestedUser);
+        } catch (err) {
+            next(err);
+        }
+    };
+
+    public getToVerifyImage = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const currentUser: User = res.locals.user;
+            if (!currentUser) throw 0;
+            if (!currentUser.is_admin) throw new HttpException(403, "Forbidden");
+
+            const userId = req.params.id as unknown as number;
+
+            const imagePath = await this.authService.getToVerifyImagePath(userId);
+
+            res.status(200).sendFile(imagePath, { root: "/app" });
+            
+        } catch (err) {
+            console.log(err);
+            next(err);
+        }
+    };
+    
+
     public verify = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const currentUser: User = res.locals.user;
@@ -67,7 +102,7 @@ export default class AuthController {
 
             const userId = req.params.id as unknown as number;
             const { accept }: { accept: boolean} = req.body;
-            this.authService.verify(userId, accept);
+            await this.authService.verify(userId, accept);
 
             res.status(200).json({ message: "User verification successful" });
         }

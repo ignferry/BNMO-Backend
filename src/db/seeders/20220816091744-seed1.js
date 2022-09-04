@@ -25,10 +25,21 @@ module.exports = {
       }
     ));
 
+    fakeUsers.push({
+      username: "administrator",
+      email: "admin@gmail.com",
+      password: "$2b$10$6OmCXZrOMGZmtx6JsmO96OwnugT4bkHfqM6yYEt5J/lD3j1hBD8q6", // password
+      name: "administrator",
+      ktp_image: faker.image.food(),
+      balance: 0,
+      is_verified: true,
+      is_admin: true
+    })
+
     await queryInterface.bulkInsert("users", fakeUsers, {});
 
     const users = await queryInterface.sequelize.query(
-      "SELECT id FROM users"
+      "SELECT id FROM users WHERE is_admin=false"
     );
 
     const userIds = users[0];

@@ -62,6 +62,22 @@ export default class AuthService {
         };
     }
 
+    public async getToVerifyData(userId: number): Promise<User> {
+        const user: User | null = await User.findByPk(userId, { attributes: { exclude: ["password", "is_admin", "ktp_image", "balance"] } });
+        if (!user) throw new HttpException(404, "User not found");
+        if (user.is_verified) throw new HttpException(409, "User has been verified before");
+
+        return user;
+    }
+
+    public async getToVerifyImagePath(userId: number): Promise<string> {
+        const user: User | null = await User.findByPk(userId);
+        if (!user) throw new HttpException(404, "User not found");
+        if (user.is_verified) throw new HttpException(409, "User has been verified before");
+
+        return user.ktp_image;
+    }
+
     public async verify(userId: number, accept: boolean): Promise<void> {
         const user: User | null = await User.findByPk(userId);
         if (!user) throw new HttpException(404, "User not found");

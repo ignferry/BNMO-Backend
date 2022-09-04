@@ -4,3 +4,4 @@ node_modules
 !src/db/seeders/*.js
 notes.txt
 .env
+storage

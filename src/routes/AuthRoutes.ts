@@ -19,6 +19,8 @@ export default class AuthRoutes implements Routes {
         this.router.post("/signup", fileUploadMiddleware.single('ktp_image'), this.authController.signUp, validationErrorMiddleware);
         this.router.post("/login", this.authController.logIn);
         this.router.post("/logout", authMiddleware, this.authController.logOut);
+        this.router.get("/verify/:id(\\d+)", authMiddleware, this.authController.getToVerifyData);
+        this.router.get("/verify/:id(\\d+)/image", authMiddleware, this.authController.getToVerifyImage);
         this.router.post("/verify/:id(\\d+)", authMiddleware, this.authController.verify);
     }
 }
